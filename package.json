@@ -1,0 +1,27 @@
+{
+  "name": "ekolekti_backend",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "OSC project ekoloecti",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/01Skymoon01/Ekolekti_Backend.git"
+  },
+  "author": "Nour khedher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/01Skymoon01/Ekolekti_Backend/issues"
+  },
+  "homepage": "https://github.com/01Skymoon01/Ekolekti_Backend#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.13.6",
+    "nodemon": "^2.0.12"
+  }
+}
