@@ -51,13 +51,13 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exists')
     }
 
-    // hashPassword
-    let passwordb = await bcrypt.hash(password, 10)
+    // // hashPassword
+    // let passwordb = await bcrypt.hash(password, 10)
 
     const user = await User.create({
         name,
         email,
-        passwordb
+        password
     })
 
     if (user) {
