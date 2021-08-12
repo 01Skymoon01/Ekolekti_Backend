@@ -30,6 +30,10 @@ userSchema.methods.matchPassword = async function(enteredPasswaord) {
     return await bcrypt.compare(enteredPasswaord, this.password)
 }
 
+userSchema.methods.hashPassword = async function(enteredPasswaord) {
+    return await bcrypt.hash(enteredPasswaord, 10)
+}
+
 const User = mongoose.model('User', userSchema)
 
 export default User
