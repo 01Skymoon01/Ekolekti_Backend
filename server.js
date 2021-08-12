@@ -9,6 +9,12 @@ dotenv.config()
 connectDB()
 
 const app = express()
+//  This is added to accept json data in the body
+app.use(express.json())
+
+app.get('/api', (req,res) =>{
+    res.send('API is running...')
+})
 
 // @DESC Call User Route
 

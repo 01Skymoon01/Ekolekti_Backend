@@ -5,7 +5,9 @@
   "description": "OSC project ekoloecti",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server"
+    "start": "nodemon server",
+    "data:import": "node seeder",
+    "data:destroy": "node seeder -d"
   },
   "repository": {
     "type": "git",
@@ -19,8 +21,11 @@
   "homepage": "https://github.com/01Skymoon01/Ekolekti_Backend#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.6",
     "nodemon": "^2.0.12"
   }
