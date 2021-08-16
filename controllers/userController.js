@@ -6,11 +6,6 @@ import bcrypt from "bcryptjs";
 // @desc    Auth user & get token
 // @route   POST /api/users/login
 // @access  Public
-// @raw_Json
-// {
-//     "email": "admin@example.com",
-//     "password": "123456"
-// }
 const authUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
@@ -35,12 +30,6 @@ const authUser = asyncHandler(async (req, res) => {
 // @desc    Register a new user
 // @route   POST /api/users
 // @access  Public
-// @raw_Json
-// {
-//     "name": "skymowen",
-//     "email": "skymowen@example.com",
-//     "password": "123456"
-// }
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body
 

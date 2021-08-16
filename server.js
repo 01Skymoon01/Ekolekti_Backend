@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import {errorHandler, notFound} from "./Middleware/errorMiddleware.js";
 import userRoutes from './routes/userRoutes.js'
+import trolleyRoutes from './routes/trolleyRoutes.js'
 
 dotenv.config()
 
@@ -18,6 +19,9 @@ app.get('/api', (req,res) =>{
 
 // @DESC Call User Route
 app.use('/api/users', userRoutes)
+
+// @DESC Call Trolley Route
+app.use('/api/trolley', trolleyRoutes)
 
 
 app.use(notFound)
