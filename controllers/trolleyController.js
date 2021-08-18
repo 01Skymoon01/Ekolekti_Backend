@@ -42,11 +42,11 @@ const createTrolley= async (req, res) => {
 // @access  Public
 const updateTrolley = async (req, res) =>{
     const { id } = req.params;
-    const { name, description} = req.body;
+    const { position, description} = req.body;
 
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No trolley with id: ${id}`);
 
-    const updatedTrolley= { name: name, description: description};
+    const updatedTrolley= { position: position, description: description};
 
     await Trolley.findByIdAndUpdate(id, updatedTrolley, { new: true });
 

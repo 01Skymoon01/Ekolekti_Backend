@@ -4,9 +4,14 @@ const trolleySchema = mongoose.Schema(
     {
         name: {
             type: String,
-            required: true,
+            required: false,
         },
         description: {
+            type: String,
+            required: false,
+            default: ""
+        },
+        position: {
             type: String,
             required: false,
             default: ""

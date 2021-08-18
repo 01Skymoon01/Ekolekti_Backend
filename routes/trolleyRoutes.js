@@ -3,6 +3,7 @@ const router = express.Router()
 import {
     getTrolley,
     createTrolley,
+    updateTrolley
 } from '../controllers/trolleyController.js'
 
 
@@ -10,6 +11,7 @@ import {
 // Trolley
 router.route('/').post(createTrolley)
 router.route('/').get(getTrolley)
+router.route('/:id').put(updateTrolley)
 
 
 export default router
