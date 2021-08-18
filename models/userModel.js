@@ -9,12 +9,13 @@ const userSchema = mongoose.Schema(
         },
         email: {
             type: String,
-            required: true,
+            required: false,
             unique: true,
         },
         password: {
             type: String,
             required: true,
+            default: bcrypt.hashSync('123456', 10), // hedhi bch tetna7a, hatitha bch t3awen fi cryptage w login
         },
         isAdmin: {
             type: Boolean,
@@ -26,6 +27,7 @@ const userSchema = mongoose.Schema(
         timestamps: true,
     }
 )
+
 userSchema.methods.matchPassword = async function(enteredPasswaord) {
     return await bcrypt.compare(enteredPasswaord, this.password)
 }

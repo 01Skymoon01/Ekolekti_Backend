@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 import bcrypt from "bcryptjs";
+import Barbecha from "../models/barbechaModel.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -172,6 +173,95 @@ const updateUser = asyncHandler(async (req, res) => {
     }
 })
 
+// ***** For Barbechas *****
+
+// @desc    Add barbecha
+// @route   POST /api/users/barbechas
+// @access  Private/Admin (in process)
+// {
+//     "name": "barbecha1",
+//     "email": "bar@bar3.com",
+//     "phone": 23232323,
+//     "refTrolley": "611a24390b2308294c62bc9e"
+// }
+const addBarbecha = asyncHandler(async (req, res) => {
+    const barbecha = req.body
+
+    const newBarbecha = new Barbecha(barbecha);
+
+    await newBarbecha.save();
+
+    if (newBarbecha) {
+
+        res.json(newBarbecha)
+    } else {
+        res.status(401)
+        throw new Error('Invalid email or password')
+    }
+})
+
+
+// @desc    Get barbacha by id
+// @route   GET /api/users/barbechas/:id
+// @access  Private/Admin (in process)
+const getBarbachaById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const user = await Barbecha.findById(id)
+
+    if (user) {
+        res.json(user)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
+// @desc    Get all Barbechas
+// @route   GET /api/users/barbechas
+// @access  Private/Admin (in process)
+const getBarbechas = asyncHandler(async (req, res) => {
+    const users = await Barbecha.find()
+    res.json(users)
+})
+
+// @desc    Update Barbecha
+// @route   PUT /api/users/barbechas/:id
+// @access  Private/Admin (in process)
+// {
+//     "email": "bar@bar11.com"
+// }
+const updateBarbecha = asyncHandler(async (req, res) => {
+    const user = await Barbecha.findById(req.params.id)
+
+    if (user) {
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.phone = req.body.phone || user.phone
+        user.refTrolley = req.body.refTrolley || user.refTrolley || null
+
+        const updatedUser = await user.save()
+
+        res.json(updatedUser)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
+// @desc    Delete barbecha
+// @route   DELETE /api/users/barbechas/:id
+// @access  Private/Admin (in process)
+const deleteBarbecha = asyncHandler(async (req, res) => {
+    const user = await Barbecha.findById(req.params.id)
+
+    if (user) {
+        await user.remove()
+        res.json({ message: 'User removed' })
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
 export {
     authUser,
     registerUser,
@@ -181,4 +271,10 @@ export {
     deleteUser,
     getUserById,
     updateUser,
+    // For barbechas
+    addBarbecha,
+    getBarbachaById,
+    getBarbechas,
+    updateBarbecha,
+    deleteBarbecha
 }
