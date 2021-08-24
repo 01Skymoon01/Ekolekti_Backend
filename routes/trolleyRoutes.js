@@ -3,7 +3,8 @@ const router = express.Router()
 import {
     getTrolley,
     createTrolley,
-    updateTrolley
+    updateTrolley,
+    deleteTrolley
 } from '../controllers/trolleyController.js'
 
 
@@ -12,6 +13,7 @@ import {
 router.route('/').post(createTrolley)
 router.route('/').get(getTrolley)
 router.route('/:id').put(updateTrolley)
+router.route('/:id').delete(deleteTrolley)
 
 
 export default router

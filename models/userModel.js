@@ -17,6 +17,26 @@ const userSchema = mongoose.Schema(
             required: true,
             default: bcrypt.hashSync('123456', 10), // hedhi bch tetna7a, hatitha bch t3awen fi cryptage w login
         },
+        gender: {
+            type: String,
+            required: false,
+            unique: true,
+        },
+        dateBirth: {
+            type: Date,
+            required: false,
+            unique: true,
+        },
+        avatar: {
+            type: String,
+            required: false,
+            unique: true,
+        },
+        available: {
+            type: Boolean,
+            required: false,
+            unique: true,
+        },
         isAdmin: {
             type: Boolean,
             required: true,

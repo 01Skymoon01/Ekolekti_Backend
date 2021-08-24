@@ -1,12 +1,8 @@
 import mongoose from 'mongoose'
 
-const trolleySchema = mongoose.Schema(
+const claimSchema = mongoose.Schema(
     {
-        weight: {
-            type: Number,
-            required: false,
-        },
-        name: {
+        type: {
             type: String,
             required: false,
         },
@@ -15,11 +11,16 @@ const trolleySchema = mongoose.Schema(
             required: false,
             default: ""
         },
-        position: {
+        message: {
+            type: String,
+            required: false,
+            default: ""
+        },
+        refCitizen: {
             type: String,
             required: false,
         },
-        available: {
+        status: {
             type: Boolean,
             required: false,
         }
@@ -29,6 +30,6 @@ const trolleySchema = mongoose.Schema(
     }
 )
 
-const Trolley = mongoose.model('Trolleys', trolleySchema)
+const Claim = mongoose.model('Claim', claimSchema)
 
-export default Trolley
+export default Claim

@@ -42,22 +42,25 @@ const createTrolley= async (req, res) => {
 // @access  Public
 const updateTrolley = async (req, res) =>{
     const { id } = req.params;
-    const { position, description} = req.body;
+    //const { position, description} = req.body;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No trolley with id: ${id}`);
+    const trolley = await Trolley.findById(id)
 
-    const updatedTrolley= { position: position, description: description};
+    if (!trolley) return res.status(404).send(`No trolley with id: ${id}`);
 
-    await Trolley.findByIdAndUpdate(id, updatedTrolley, { new: true });
+    trolley.position = req.body.position || trolley.position
+    trolley.description = req.body.description || trolley.description || null
 
-    res.json(updatedTrolley);
+    await Trolley.findByIdAndUpdate(id, trolley, { new: true });
+
+    res.json(trolley);
 
 };
 
 // @desc    delete trolley
 // @route   Delete api/trolley/:id
 // @access  Public
-const deleteCategory=  async (req, res) =>{
+const deleteTrolley=  async (req, res) =>{
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No trolley with id: ${id}`);
 
@@ -71,5 +74,5 @@ export {
     getTrolley,
     createTrolley,
     updateTrolley,
-    deleteCategory
+    deleteTrolley
 };
