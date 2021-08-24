@@ -16,9 +16,10 @@ const claimSchema = mongoose.Schema(
             required: false,
             default: ""
         },
-        refCitizen: {
-            type: String,
-            required: false,
+        refCitizen:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Citizen',
+            required: false
         },
         status: {
             type: Boolean,

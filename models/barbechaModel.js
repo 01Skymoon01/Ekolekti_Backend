@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const barbechaSchema = extendSchema(User.schema, {
     phone: {
         type: Number,
-        required: true
+        required: false
     },
     refTrolley: {
         type: mongoose.Schema.Types.ObjectId,

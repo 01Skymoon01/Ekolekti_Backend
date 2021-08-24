@@ -20,22 +20,18 @@ const userSchema = mongoose.Schema(
         gender: {
             type: String,
             required: false,
-            unique: true,
         },
         dateBirth: {
             type: Date,
             required: false,
-            unique: true,
         },
         avatar: {
             type: String,
             required: false,
-            unique: true,
         },
         available: {
             type: Boolean,
             required: false,
-            unique: true,
         },
         isAdmin: {
             type: Boolean,

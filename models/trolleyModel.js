@@ -21,7 +21,8 @@ const trolleySchema = mongoose.Schema(
         },
         available: {
             type: Boolean,
-            required: false,
+            required: true,
+            default: false
         }
     },
     {

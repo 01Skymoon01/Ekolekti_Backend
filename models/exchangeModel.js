@@ -3,9 +3,8 @@ import mongoose from 'mongoose'
 const exchangeSchema = mongoose.Schema(
     {
         date_exchange: {
-            type: String,
+            type: Date,
             required: false,
-            default: ""
         },
         position: {
             type: String,
