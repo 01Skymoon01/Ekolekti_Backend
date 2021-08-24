@@ -3,10 +3,6 @@ import extendSchema from "mongoose-extend-schema";
 import mongoose from "mongoose";
 
 const barbechaSchema = extendSchema(User.schema, {
-    phone: {
-        type: Number,
-        required: false
-    },
     refTrolley: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Trolley',
