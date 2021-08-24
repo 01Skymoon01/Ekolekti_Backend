@@ -3,6 +3,7 @@ import generateToken from '../utils/generateToken.js'
 import User from '../models/userModel.js'
 import bcrypt from "bcryptjs";
 import Barbecha from "../models/barbechaModel.js";
+import Citizen from "../models/citizenModel.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -14,10 +15,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     if (user && (await user.matchPassword(password))) {
         res.status(200).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
+            user,
             token: generateToken(user._id),
         })
 
@@ -42,7 +40,6 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     // // hashPassword
-    // let passwordb = await bcrypt.hash(password, 10)
     let passwordCrypt= bcrypt.hashSync(password, 10)
 
     const user = await User.create({
@@ -56,10 +53,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
         res.status(201).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
+            user,
             token: generateToken(user._id),
         })
     } else {
@@ -75,12 +69,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
 
     if (user) {
-        res.status(200).json({
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            isAdmin: user.isAdmin,
-        })
+        res.status(200).json(user)
     } else {
         res.status(404)
         throw new Error('User not found')
@@ -241,6 +230,9 @@ const updateBarbecha = asyncHandler(async (req, res) => {
         user.name = req.body.name || user.name
         user.email = req.body.email || user.email
         user.phone = req.body.phone || user.phone
+        user.gender = req.body.gender || user.gender
+        user.dateBirth = req.body.dateBirth || user.dateBirth
+        user.available = req.body.available || user.available
         user.refTrolley = req.body.refTrolley || user.refTrolley || null
 
         const updatedUser = await user.save()
@@ -266,7 +258,36 @@ const deleteBarbecha = asyncHandler(async (req, res) => {
         throw new Error('User not found')
     }
 })
+
+// ***** For Citizen *****
+
+// @desc    Add citizen
+// @route   POST /api/users/citizen
+// @access  Public
+// {
+//     "name": "citizen",
+//     "email": "citizen@citizen.com",
+//     "phone": 23232323,
+// }
+const addCitizen = asyncHandler(async (req, res) => {
+    const citizen = req.body
+
+    const newCitizen = new Citizen(citizen);
+
+    await newCitizen.save();
+
+    if (newCitizen) {
+
+        res.status(201).json(newCitizen)
+    } else {
+        res.status(401)
+        throw new Error('Invalid email or password')
+    }
+})
+
 export {
+
+    // For User
     authUser,
     registerUser,
     getUserProfile,
@@ -275,10 +296,14 @@ export {
     deleteUser,
     getUserById,
     updateUser,
-    // For barbechas
+
+    // For Barbechas
     addBarbecha,
     getBarbachaById,
     getBarbechas,
     updateBarbecha,
-    deleteBarbecha
+    deleteBarbecha,
+
+    // For Citizen
+    addCitizen,
 }
