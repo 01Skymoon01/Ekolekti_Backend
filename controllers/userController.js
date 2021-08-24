@@ -17,9 +17,13 @@ const authUser = asyncHandler(async (req, res) => {
     if (user && (await user.matchPassword(password))) {
         res.status(200).json({
             _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
             token: generateToken(user._id),
         })
-
 
     } else {
         res.status(401)
@@ -40,7 +44,7 @@ const registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exists')
     }
 
-    // // hashPassword
+    // hashPassword
     let passwordCrypt= bcrypt.hashSync(password, 10)
 
     console.log(passwordCrypt)
@@ -317,6 +321,77 @@ const getCitizenById = asyncHandler(async (req, res) => {
     }
 })
 
+
+// @desc    Register a new citizen
+// @route   POST /api/users/citizen
+// @access  Public
+const registerCitizen = asyncHandler(async (req, res) => {
+    const { name, email, password, gender, dateBirth, phone } = req.body
+
+    const userExists = await Citizen.findOne({ email })
+
+    if (userExists) {
+        res.status(400)
+        throw new Error('User already exists')
+    }
+
+    // hashPassword
+    let passwordCrypt= bcrypt.hashSync(password, 10)
+
+    console.log(passwordCrypt)
+    const user = await Citizen.create({
+        name,
+        email,
+        password:passwordCrypt,
+        gender,
+        phone,
+        dateBirth
+    })
+
+    if (user) {
+        res.status(201).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
+            token: generateToken(user._id),
+        })
+    } else {
+        res.status(400)
+        throw new Error('Invalid user data')
+    }
+})
+
+// @desc    Auth citizen & get token
+// @route   POST /api/users/citizen/login
+// @access  Public
+const authCitizen  = asyncHandler(async (req, res) => {
+    const { email, password } = req.body
+
+    const user = await Citizen.findOne({ email })
+
+    console.log(password)
+    if (user && (await user.matchPassword(password))) {
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
+            score: user.score,
+            token: generateToken(user._id),
+        })
+
+    } else {
+        res.status(401)
+        throw new Error('Invalid email or password')
+    }
+})
+
+
 export {
 
     // For User
@@ -338,5 +413,7 @@ export {
 
     // For Citizen
     addCitizen,
-    getCitizenById
+    getCitizenById,
+    registerCitizen,
+    authCitizen
 }

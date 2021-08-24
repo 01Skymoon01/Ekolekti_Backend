@@ -14,15 +14,20 @@ import {
     getBarbechas,
     updateBarbecha,
     deleteBarbecha,
-    addCitizen,
-    getCitizenById
+    registerCitizen,
+    getCitizenById,
+    authCitizen
 } from '../controllers/userController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
 // ***** Citizen *****
 router
     .route('/citizen')
-    .post(addCitizen)
+    .post(registerCitizen)
+
+router
+    .route('/citizen/login')
+    .post(authCitizen)
 
 router
     .route('/citizen/:id')

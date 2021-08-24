@@ -1,6 +1,7 @@
 import User from "./userModel.js";
 import extendSchema from "mongoose-extend-schema";
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const citizenSchema = extendSchema(User.schema, {
     score: {type: Number, required: true, default: 0},
@@ -10,6 +11,11 @@ const citizenSchema = extendSchema(User.schema, {
         required: false
     },
 });
+
+citizenSchema.methods.matchPassword = async function(enteredPasswaord) {
+    return await bcrypt.compare(enteredPasswaord, this.password)
+}
+
 
 const Citizen = mongoose.model('Citizen', citizenSchema)
 
