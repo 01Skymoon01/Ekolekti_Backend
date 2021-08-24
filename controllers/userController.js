@@ -15,7 +15,13 @@ const authUser = asyncHandler(async (req, res) => {
 
     if (user && (await user.matchPassword(password))) {
         res.status(200).json({
-            user,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
+            isAdmin: user.isAdmin,
             token: generateToken(user._id),
         })
 
@@ -53,7 +59,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
         res.status(201).json({
-            user,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
             token: generateToken(user._id),
         })
     } else {
@@ -69,7 +80,12 @@ const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id)
 
     if (user) {
-        res.status(200).json(user)
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+        })
     } else {
         res.status(404)
         throw new Error('User not found')
@@ -92,10 +108,12 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         const updatedUser = await user.save()
 
         res.status(205).json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
             token: generateToken(updatedUser._id),
         })
     } else {
@@ -155,10 +173,13 @@ const updateUser = asyncHandler(async (req, res) => {
         const updatedUser = await user.save()
 
         res.status(205).json({
-            _id: updatedUser._id,
-            name: updatedUser.name,
-            email: updatedUser.email,
-            isAdmin: updatedUser.isAdmin,
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
+            isAdmin: user.isAdmin
         })
     } else {
         res.status(404)
