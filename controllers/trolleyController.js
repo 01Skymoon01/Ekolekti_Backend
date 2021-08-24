@@ -50,10 +50,12 @@ const updateTrolley = async (req, res) =>{
 
     trolley.position = req.body.position || trolley.position
     trolley.description = req.body.description || trolley.description || null
+    trolley.available = req.body.available || trolley.available || null
+    trolley.weight = req.body.weight || trolley.weight || null
 
     await Trolley.findByIdAndUpdate(id, trolley, { new: true });
 
-    res.json(trolley);
+    res.status(200).json(trolley);
 
 };
 
@@ -66,7 +68,7 @@ const deleteTrolley=  async (req, res) =>{
 
     await Trolley.findByIdAndDelete(id);
 
-    res.json({message: 'Category deleted successfully'});
+    res.status(204).json({message: 'Category deleted successfully'});
 };
 
 
