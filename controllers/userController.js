@@ -13,15 +13,10 @@ const authUser = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ email })
 
+    console.log(password)
     if (user && (await user.matchPassword(password))) {
         res.status(200).json({
             _id: user._id,
-            name: user.name,
-            email: user.email,
-            gender: user.gender,
-            dateBirth: user.dateBirth,
-            phone: user.phone,
-            isAdmin: user.isAdmin,
             token: generateToken(user._id),
         })
 
@@ -48,10 +43,11 @@ const registerUser = asyncHandler(async (req, res) => {
     // // hashPassword
     let passwordCrypt= bcrypt.hashSync(password, 10)
 
+    console.log(passwordCrypt)
     const user = await User.create({
         name,
         email,
-        passwordCrypt,
+        password:passwordCrypt,
         gender,
         phone,
         dateBirth
@@ -306,6 +302,21 @@ const addCitizen = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc    Get citizen by id
+// @route   GET /api/users/citizen/:id
+// @access  Private/Admin (in process)
+const getCitizenById = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const user = await Citizen.findById(id)
+
+    if (user) {
+        res.status(200).json(user)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
 export {
 
     // For User
@@ -327,4 +338,5 @@ export {
 
     // For Citizen
     addCitizen,
+    getCitizenById
 }

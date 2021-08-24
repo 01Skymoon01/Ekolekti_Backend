@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema(
         password: {
             type: String,
             required: true,
-            default: bcrypt.hashSync('123456', 10), // hedhi bch tetna7a, hatitha bch t3awen fi cryptage w login
+            //default: bcrypt.hashSync('123456', 10), // hedhi bch tetna7a, hatitha bch t3awen fi cryptage w login
         },
         gender: {
             type: String,
