@@ -13,7 +13,6 @@ const authUser = asyncHandler(async (req, res) => {
 
     const user = await User.findOne({ email })
 
-    console.log(password)
     if (user && (await user.matchPassword(password))) {
         res.status(200).json({
             _id: user._id,
@@ -47,7 +46,6 @@ const registerUser = asyncHandler(async (req, res) => {
     // hashPassword
     let passwordCrypt= bcrypt.hashSync(password, 10)
 
-    console.log(passwordCrypt)
     const user = await User.create({
         name,
         email,
@@ -338,7 +336,6 @@ const registerCitizen = asyncHandler(async (req, res) => {
     // hashPassword
     let passwordCrypt= bcrypt.hashSync(password, 10)
 
-    console.log(passwordCrypt)
     const user = await Citizen.create({
         name,
         email,
@@ -372,7 +369,6 @@ const authCitizen  = asyncHandler(async (req, res) => {
 
     const user = await Citizen.findOne({ email })
 
-    console.log(password)
     if (user && (await user.matchPassword(password))) {
         res.status(200).json({
             _id: user._id,
