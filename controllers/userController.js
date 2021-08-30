@@ -201,9 +201,21 @@ const updateUser = asyncHandler(async (req, res) => {
 const addBarbecha = asyncHandler(async (req, res) => {
     const barbecha = req.body
 
-    const newBarbecha = new Barbecha(barbecha);
+    // hashPassword
+    let passwordCrypt= bcrypt.hashSync(barbecha.password, 10)
 
-    await newBarbecha.save();
+    console.log(passwordCrypt)
+
+    const newBarbecha = await Barbecha.create({
+        name:barbecha.name,
+        email:barbecha.email,
+        password:passwordCrypt,
+        dateBirth: barbecha.dateBirth,
+        gender: barbecha.gender,
+        phone: barbecha.phone,
+        available: barbecha.available,
+        avatar: barbecha.avatar,
+    })
 
     if (newBarbecha) {
 
@@ -214,6 +226,32 @@ const addBarbecha = asyncHandler(async (req, res) => {
     }
 })
 
+
+// @desc    Auth barbecha & get token
+// @route   POST /api/users/barbechas/login
+// @access  Public
+const authBarbecha = asyncHandler(async (req, res) => {
+    const { email, password } = req.body
+
+    const user = await Barbecha.findOne({ email })
+
+    console.log(password)
+    if (user && (await user.matchPassword(password))) {
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            gender: user.gender,
+            dateBirth: user.dateBirth,
+            phone: user.phone,
+            token: generateToken(user._id),
+        })
+
+    } else {
+        res.status(401)
+        throw new Error('Invalid email or password')
+    }
+})
 
 // @desc    Get barbacha by id
 // @route   GET /api/users/barbechas/:id
@@ -248,13 +286,14 @@ const updateBarbecha = asyncHandler(async (req, res) => {
     const user = await Barbecha.findById(req.params.id)
 
     if (user) {
-        user.name = req.body.name || user.name
-        user.email = req.body.email || user.email
-        user.phone = req.body.phone || user.phone
-        user.gender = req.body.gender || user.gender
-        user.dateBirth = req.body.dateBirth || user.dateBirth
-        user.available = req.body.available || user.available
-        user.refTrolley = req.body.refTrolley || user.refTrolley || null
+        user.name = req.body.name
+        user.email = req.body.email
+        user.phone = req.body.phone
+        user.gender = req.body.gender
+        user.dateBirth = req.body.dateBirth
+        user.available = req.body.available
+        user.refTrolley = req.body.refTrolley
+        user.avatar = req.body.avatar
 
         const updatedUser = await user.save()
 
@@ -406,6 +445,7 @@ export {
 
     // For Barbechas
     addBarbecha,
+    authBarbecha,
     getBarbachaById,
     getBarbechas,
     updateBarbecha,

@@ -16,7 +16,7 @@ import {
     deleteBarbecha,
     registerCitizen,
     getCitizenById,
-    authCitizen
+    authCitizen, authBarbecha
 } from '../controllers/userController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
@@ -37,6 +37,10 @@ router
 router
     .route('/barbechas')
     .post(addBarbecha)
+
+router
+    .route('/barbechas/login')
+    .post(authBarbecha)
 
 router
     .route('/barbechas')

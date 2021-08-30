@@ -38,7 +38,7 @@ const createTrolley= async (req, res) => {
 
 
 // @desc    Update trolley name + desc
-// @route   Patch api/trolley/:id
+// @route    api/trolley/:id
 // @access  Public
 const updateTrolley = async (req, res) =>{
     const { id } = req.params;
@@ -48,10 +48,10 @@ const updateTrolley = async (req, res) =>{
 
     if (!trolley) return res.status(404).send(`No trolley with id: ${id}`);
 
-    trolley.position = req.body.position || trolley.position
-    trolley.description = req.body.description || trolley.description || null
-    trolley.available = req.body.available || trolley.available || null
-    trolley.weight = req.body.weight || trolley.weight || null
+    trolley.position = req.body.position || trolley.position || "in garage"
+    trolley.description = req.body.description
+    trolley.available = req.body.available
+    trolley.weight = req.body.weight || trolley.weight || 0
 
     await Trolley.findByIdAndUpdate(id, trolley, { new: true });
 
