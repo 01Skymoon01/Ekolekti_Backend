@@ -23,6 +23,11 @@ const trolleySchema = mongoose.Schema(
             type: Boolean,
             required: true,
             default: false
+        },
+        tokenStatus: {
+            type: Boolean,
+            required: true,
+            default: false
         }
     },
     {
