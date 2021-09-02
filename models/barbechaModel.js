@@ -8,7 +8,12 @@ const barbechaSchema = extendSchema(User.schema, {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Trolley',
         required: false
-    }
+    },
+    totalWeight: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
 });
 barbechaSchema.methods.matchPassword = async function(enteredPasswaord) {
     return await bcrypt.compare(enteredPasswaord, this.password)
