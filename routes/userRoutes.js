@@ -18,7 +18,7 @@ import {
     getCitizenById,
     authCitizen, authBarbecha
 } from '../controllers/userController.js'
-import { protect, admin } from '../middleware/authMiddleware.js'
+import { protect, admin, protectCitizen } from '../middleware/authMiddleware.js'
 
 // ***** Citizen *****
 router
@@ -31,7 +31,7 @@ router
 
 router
     .route('/citizen/:id')
-    .post(getCitizenById)
+    .post(protectCitizen, getCitizenById)
 
 // ***** Barbecha *****
 router

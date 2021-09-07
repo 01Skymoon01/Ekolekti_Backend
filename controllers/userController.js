@@ -345,7 +345,7 @@ const addCitizen = asyncHandler(async (req, res) => {
 
 // @desc    Get citizen by id
 // @route   GET /api/users/citizen/:id
-// @access  Private/Admin (in process)
+// @access  Public
 const getCitizenById = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const user = await Citizen.findById(id)

@@ -19,6 +19,11 @@ const trolleySchema = mongoose.Schema(
             type: String,
             required: false,
         },
+        volume: {
+            type: String,
+            required: true,
+            default: 0,
+        },
         available: {
             type: Boolean,
             required: true,
