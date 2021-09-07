@@ -4,7 +4,7 @@ import {
     getTrolley,
     createTrolley,
     updateTrolley,
-    deleteTrolley
+    deleteTrolley, getAllNoneTokenTrolley
 } from '../controllers/trolleyController.js'
 
 
@@ -12,6 +12,7 @@ import {
 // Trolley
 router.route('/').post(createTrolley)
 router.route('/').get(getTrolley)
+router.route('/nonetoken').get(getAllNoneTokenTrolley)
 router.route('/:id').put(updateTrolley)
 router.route('/:id').delete(deleteTrolley)
 

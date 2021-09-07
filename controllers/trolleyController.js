@@ -18,6 +18,21 @@ const getTrolley= async (req, res) => {
 
 };
 
+// @desc    get none token trolleys
+// @route   GET api/trolley/nonetoken
+// @access  Public
+const getAllNoneTokenTrolley= async (req, res) => {
+
+    try {
+        const trolleyMessages = await Trolley.find({tokenStatus: true});
+
+        res.status(200).json(trolleyMessages);
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+
+};
+
 // @desc    Add trolley
 // @route   POST api/trolley
 // @access  Public
@@ -74,6 +89,7 @@ const deleteTrolley=  async (req, res) =>{
 
 export {
     getTrolley,
+    getAllNoneTokenTrolley,
     createTrolley,
     updateTrolley,
     deleteTrolley
