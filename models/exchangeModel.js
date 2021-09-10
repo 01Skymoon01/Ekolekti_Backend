@@ -2,11 +2,6 @@ import mongoose from 'mongoose'
 
 const exchangeSchema = mongoose.Schema(
     {
-        // Wa9eth saret exchange
-        date_exchange: {
-            type: Date,
-            required: false,
-        },
         // Position Client
         position: {
             type: String,

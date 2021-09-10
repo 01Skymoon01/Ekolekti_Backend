@@ -22,10 +22,24 @@ const getExchange= async (req, res) => {
 // @desc    Add Exchange
 // @route   POST api/exchange
 // @access  Public
+// @Json req
+// {
+//     "position": "ariana",
+//     "quantities":
+//     [
+//         {"type": "simple plastic", "quantity": 10, "score": 10},
+//         {"type": "hard plastic", "quantity": 9, "score": 9}
+//     ],
+//         "status": false,
+//     "refBarbecha": "612c64819c05110980d8ab84",
+//     "refCitizen": "6124e4c7cb54842ed0c868aa"
+// }
 const createExchange= async (req, res) => {
 
     const exchange = req.body;
     const newExchange = new Exchange(exchange);
+
+    // Choose barbecha..
 
     try {
         await newExchange.save();
@@ -50,7 +64,7 @@ const updateExchange = async (req, res) =>{
     if (!exchange) return res.status(404).send(`No exchange with id: ${id}`);
 
     exchange.date_exchange = req.body.date_exchange || exchange.date_exchange
-    exchange.position = req.body.position || exchange.position || null
+    exchange.position = req.body.position || exchange.position
     exchange.quantities = req.body.quantities || exchange.quantities
     exchange.status = req.body.status || exchange.status
     exchange.refBarbecha = req.body.refBarbecha || exchange.refBarbecha
