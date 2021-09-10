@@ -31,7 +31,7 @@ router
 
 router
     .route('/citizen/:id')
-    .post(protectCitizen, getCitizenById)
+    .get(protectCitizen, getCitizenById)
 
 // ***** Barbecha *****
 router
