@@ -439,7 +439,7 @@ const checkInProgressExchange = asyncHandler(async (req, res) => {
         res.status(200).json({exchange})
     } else {
         res.status(401)
-        throw new Error('Invalid email or password '+ exchange)
+        throw new Error('no exchange with false status')
     }
 })
 

@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 
 const citizenSchema = extendSchema(User.schema, {
     score: {type: Number, required: true, default: 0},
+    // Just for testing
     refExchange: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exchange',
