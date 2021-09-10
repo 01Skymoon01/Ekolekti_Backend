@@ -16,9 +16,12 @@ import {
     deleteBarbecha,
     registerCitizen,
     getCitizenById,
-    authCitizen, authBarbecha
+    authCitizen, authBarbecha,
+    checkInProgressExchange
 } from '../controllers/userController.js'
 import { protect, admin, protectCitizen } from '../middleware/authMiddleware.js'
+
+
 
 // ***** Citizen *****
 router
@@ -32,6 +35,11 @@ router
 router
     .route('/citizen/:id')
     .get(protectCitizen, getCitizenById)
+
+// To check if there is an exchange is already in process
+router
+    .route('/citizen/exchange/:id')
+    .get(protectCitizen, checkInProgressExchange)
 
 // ***** Barbecha *****
 router

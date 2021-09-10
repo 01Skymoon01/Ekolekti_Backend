@@ -4,6 +4,7 @@ import User from '../models/userModel.js'
 import bcrypt from "bcryptjs";
 import Barbecha from "../models/barbechaModel.js";
 import Citizen from "../models/citizenModel.js";
+import Exchange from "../models/exchangeModel.js";
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -426,6 +427,22 @@ const authCitizen  = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc    To check if there is an exchange is already in process
+// @route   get /api/users/citizen/exchange/:id
+// @access  Public
+const checkInProgressExchange = asyncHandler(async (req, res) => {
+    const { id  } = req.params
+
+    const exchange = await Exchange.findOne({ refCitizen: id, status: false })
+
+    if (exchange) {
+        res.status(200).json({exchange})
+    } else {
+        res.status(401)
+        throw new Error('Invalid email or password '+ exchange)
+    }
+})
+
 
 export {
 
@@ -451,5 +468,6 @@ export {
     addCitizen,
     getCitizenById,
     registerCitizen,
-    authCitizen
+    authCitizen,
+    checkInProgressExchange
 }
