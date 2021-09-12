@@ -17,9 +17,9 @@ import {
     registerCitizen,
     getCitizenById,
     authCitizen, authBarbecha,
-    checkInProgressExchange
+    checkInProgressExchange, updateAvailabilityBarbecha
 } from '../controllers/userController.js'
-import { protect, admin, protectCitizen } from '../middleware/authMiddleware.js'
+import {protect, admin, protectCitizen, protectBarbecha} from '../middleware/authMiddleware.js'
 
 
 
@@ -59,6 +59,10 @@ router
     .get(getBarbachaById)
     .put(updateBarbecha)
     .delete(deleteBarbecha)
+
+router
+    .route('/barbechas/availability/:id')
+    .put(protectBarbecha , updateAvailabilityBarbecha)
 
 // ***** User *****
 router.route('/').post(registerUser).get(protect, admin, getUsers)

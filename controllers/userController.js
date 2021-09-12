@@ -21,7 +21,7 @@ const authUser = asyncHandler(async (req, res) => {
             email: user.email,
             gender: user.gender,
             dateBirth: user.dateBirth,
-            phone: user.phone,
+            isAdmin: user.isAdmin,
             token: generateToken(user._id),
         })
 
@@ -303,6 +303,25 @@ const updateBarbecha = asyncHandler(async (req, res) => {
     }
 })
 
+
+// @desc    Update availability Barbecha
+// @route   PUT /api/users/barbechas/availability/:id
+// @access  ....
+const updateAvailabilityBarbecha = asyncHandler(async (req, res) => {
+    const user = await Barbecha.findById(req.params.id)
+
+    if (user) {
+        user.available = req.body.available
+
+        const updatedUser = await user.save()
+
+        res.status(205).json(updatedUser)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
 // @desc    Delete barbecha
 // @route   DELETE /api/users/barbechas/:id
 // @access  Private/Admin (in process)
@@ -463,6 +482,7 @@ export {
     getBarbechas,
     updateBarbecha,
     deleteBarbecha,
+    updateAvailabilityBarbecha,
 
     // For Citizen
     addCitizen,
