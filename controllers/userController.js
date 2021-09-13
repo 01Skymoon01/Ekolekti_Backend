@@ -378,6 +378,46 @@ const getCitizenById = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc    Get citizen by id to get only the rank & score
+// @route   GET /api/users/citizen/lvl/:id
+// @access  Public
+const getCitizenByIdTogetRankAndScore = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const {score, rank} = req.body
+    const user = await Citizen.findById(id)
+
+    if (user) {
+        res.status(200).json({
+            _id: user._id,
+            rank: user.rank,
+            score: user.score
+        })
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
+// @desc    Update rank and score for a citizen by id
+// @route   PUT /api/users/citizen/lvl/:id
+// @access  Public
+const updateCitizenByIdTogetRankAndScore = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const user = await Citizen.findById(id)
+
+    if (user) {
+        user.score = req.body.score
+        user.rank = req.body.rank
+
+        const updatedUser = await user.save()
+
+        res.status(205).json(updatedUser)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
 
 // @desc    Register a new citizen
 // @route   POST /api/users/citizen
@@ -489,5 +529,7 @@ export {
     getCitizenById,
     registerCitizen,
     authCitizen,
-    checkInProgressExchange
+    checkInProgressExchange,
+    getCitizenByIdTogetRankAndScore,
+    updateCitizenByIdTogetRankAndScore
 }

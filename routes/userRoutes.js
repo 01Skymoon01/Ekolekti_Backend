@@ -16,8 +16,12 @@ import {
     deleteBarbecha,
     registerCitizen,
     getCitizenById,
-    authCitizen, authBarbecha,
-    checkInProgressExchange, updateAvailabilityBarbecha
+    authCitizen,
+    authBarbecha,
+    checkInProgressExchange,
+    updateAvailabilityBarbecha,
+    getCitizenByIdTogetRankAndScore,
+    updateCitizenByIdTogetRankAndScore
 } from '../controllers/userController.js'
 import {protect, admin, protectCitizen, protectBarbecha} from '../middleware/authMiddleware.js'
 
@@ -40,6 +44,14 @@ router
 router
     .route('/citizen/exchange/:id')
     .get(protectCitizen, checkInProgressExchange)
+
+router
+    .route('/citizen/lvl/:id')
+    .get(protectCitizen, getCitizenByIdTogetRankAndScore)
+
+router
+    .route('/citizen/lvl/:id')
+    .put(protectCitizen, updateCitizenByIdTogetRankAndScore)
 
 // ***** Barbecha *****
 router
