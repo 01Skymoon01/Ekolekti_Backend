@@ -321,6 +321,32 @@ const updateAvailabilityBarbecha = asyncHandler(async (req, res) => {
         throw new Error('User not found')
     }
 })
+// @desc    Update rating Barbecha
+// @route   PUT /api/users/barbechas/rating/:id
+// @access  ....
+const updateRatingBarbecha = asyncHandler(async (req, res) => {
+    const user = await Barbecha.findById(req.params.id)
+
+    if (user) {
+        if(user.sum_rating === null) {
+            user.sum_rating= 0;
+            user.total_users_rated = 0;
+        }
+        user.sum_rating += req.body.sum_rating
+        user.total_users_rated ++
+
+        const updatedUser = await user.save()
+
+        const rating = ( user.sum_rating / user.total_users_rated )
+
+        res.status(205).json({"rating": rating})
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
+
 
 // @desc    Delete barbecha
 // @route   DELETE /api/users/barbechas/:id
@@ -523,6 +549,7 @@ export {
     updateBarbecha,
     deleteBarbecha,
     updateAvailabilityBarbecha,
+    updateRatingBarbecha,
 
     // For Citizen
     addCitizen,

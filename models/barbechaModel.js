@@ -14,6 +14,16 @@ const barbechaSchema = extendSchema(User.schema, {
         required: true,
         default: 0,
     },
+    sum_rating: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
+    total_users_rated: {
+        type: Number,
+        required: true,
+        default: 0,
+    },
 });
 barbechaSchema.methods.matchPassword = async function(enteredPasswaord) {
     return await bcrypt.compare(enteredPasswaord, this.password)

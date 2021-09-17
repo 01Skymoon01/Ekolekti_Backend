@@ -21,7 +21,8 @@ import {
     checkInProgressExchange,
     updateAvailabilityBarbecha,
     getCitizenByIdTogetRankAndScore,
-    updateCitizenByIdTogetRankAndScore
+    updateCitizenByIdTogetRankAndScore,
+    updateRatingBarbecha
 } from '../controllers/userController.js'
 import {protect, admin, protectCitizen, protectBarbecha} from '../middleware/authMiddleware.js'
 
@@ -52,6 +53,11 @@ router
 router
     .route('/citizen/lvl/:id')
     .put(protectCitizen, updateCitizenByIdTogetRankAndScore)
+
+// This function is protected by citizen because the citizen who is going to rate
+router
+    .route('/barbechas/rating/:id')
+    .put(protectCitizen, updateRatingBarbecha)
 
 // ***** Barbecha *****
 router
