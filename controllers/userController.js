@@ -324,6 +324,7 @@ const updateAvailabilityBarbecha = asyncHandler(async (req, res) => {
 // @desc    Update rating Barbecha
 // @route   PUT /api/users/barbechas/rating/:id
 // @access  ....
+// @resources https://help.delighted.com/article/532-5-star-surveys
 const updateRatingBarbecha = asyncHandler(async (req, res) => {
     const user = await Barbecha.findById(req.params.id)
 
