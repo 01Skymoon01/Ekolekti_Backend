@@ -200,6 +200,13 @@ const updateUser = asyncHandler(async (req, res) => {
 const addBarbecha = asyncHandler(async (req, res) => {
     const barbecha = req.body
 
+    const barbechaExists = await Barbecha.findOne({email:barbecha.email })
+
+    if (barbechaExists) {
+        res.status(400)
+        throw new Error('barbecha already exists')
+    }
+
     // hashPassword
     let passwordCrypt= bcrypt.hashSync(barbecha.password, 10)
 
