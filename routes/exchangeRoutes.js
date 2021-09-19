@@ -5,20 +5,22 @@ import {
     createExchange,
     updateExchange,
     deleteExchange,
-    getExchangeByIdCitizen
+    getExchangeByIdCitizen, getExchangeByIdBarbecha
 } from '../controllers/exchangeController.js'
-import {protectCitizen} from "../Middleware/authMiddleware.js";
+import {protectBarbecha, protectCitizen} from "../Middleware/authMiddleware.js";
 
 
 
 // Trolley
 router.route('/').post(createExchange)
 router.route('/').get(getExchange)
-router
-    .route('/:id')
-    .get(protectCitizen, getExchangeByIdCitizen)
 router.route('/:id').put(updateExchange)
 router.route('/:id').delete(deleteExchange)
-
+router
+    .route('/citizen/:id')
+    .get(protectCitizen, getExchangeByIdCitizen)
+router
+    .route('/barbecha/:id')
+    .get(protectBarbecha, getExchangeByIdBarbecha)
 
 export default router
