@@ -89,10 +89,28 @@ const deleteExchange=  async (req, res) =>{
 };
 
 
+
+// @desc    get Exchange of a user sorted by date
+// @route   GET api/exchange/:id (idcitizen)
+// @access  Public
+const getExchangeByIdCitizen= async (req, res) => {
+
+    try {
+        const { id } = req.params;
+        const ExchangeMessages = await Exchange.find({refCitizen:id  }).sort({"createdAt": -1}) ;
+
+        res.status(200).json(ExchangeMessages);
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+
+};
+
 export {
     getExchange,
     createExchange,
     updateExchange,
-    deleteExchange
+    deleteExchange,
+    getExchangeByIdCitizen
 };
 

@@ -6,6 +6,10 @@ import userRoutes from './routes/userRoutes.js'
 import trolleyRoutes from './routes/trolleyRoutes.js'
 import claimRoutes from './routes/claimRoutes.js'
 import exchangeRoutes from './routes/exchangeRoutes.js'
+// Mqtt part
+import mqtt from 'mqtt'
+const client = mqtt.connect('mqtt://broker.hivemq.com')
+
 
 dotenv.config()
 
