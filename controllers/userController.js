@@ -239,6 +239,9 @@ const authBarbecha = asyncHandler(async (req, res) => {
         res.status(200).json({
             _id: user._id,
             name: user.name,
+            sum_rating:user.sum_rating,
+            total_users_rated:user.total_users_rated,
+            
             email: user.email,
             gender: user.gender,
             dateBirth: user.dateBirth,
