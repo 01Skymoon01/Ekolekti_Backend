@@ -428,6 +428,51 @@ const getCitizenByIdTogetRankAndScore = asyncHandler(async (req, res) => {
     }
 })
 
+
+// @desc    Get citizen with iron rank
+// @route   GET /api/users/citizen/iron
+// @access  Public
+const getIronCitizen = asyncHandler(async (req, res) => {
+    const user = await Citizen.find({rank: "iron"})
+
+    if (user) {
+        res.status(200).json(user)
+    } else {
+        res.status(404)
+        throw new Error('no user')
+    }
+})
+
+// @desc    Get citizen with silver rank
+// @route   GET /api/users/citizen/silver
+// @access  Public
+const getSilverCitizen = asyncHandler(async (req, res) => {
+    const user = await Citizen.find({rank: "silver"})
+
+    if (user) {
+        res.status(200).json(user)
+    } else {
+        res.status(404)
+        throw new Error('no user')
+    }
+})
+
+
+// @desc    Get citizen with gold rank
+// @route   GET /api/users/citizen/gold
+// @access  Public
+const getGoldCitizen = asyncHandler(async (req, res) => {
+    const user = await Citizen.find({rank: "gold"})
+
+    if (user) {
+        res.status(200).json(user)
+    } else {
+        res.status(404)
+        throw new Error('no user')
+    }
+})
+
+
 // @desc    Update rank and score for a citizen by id
 // @route   PUT /api/users/citizen/lvl/:id
 // @access  Public
@@ -447,6 +492,7 @@ const updateCitizenByIdTogetRankAndScore = asyncHandler(async (req, res) => {
         throw new Error('User not found')
     }
 })
+
 
 
 // @desc    Register a new citizen
@@ -562,5 +608,8 @@ export {
     authCitizen,
     checkInProgressExchange,
     getCitizenByIdTogetRankAndScore,
-    updateCitizenByIdTogetRankAndScore
+    updateCitizenByIdTogetRankAndScore,
+    getIronCitizen,
+    getSilverCitizen,
+    getGoldCitizen
 }
