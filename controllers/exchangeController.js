@@ -16,7 +16,6 @@ const getExchange= async (req, res) => {
     } catch (error) {
         res.status(404).json({message: error.message});
     }
-
 };
 
 // @desc    Add Exchange
@@ -38,7 +37,6 @@ const createExchange= async (req, res) => {
 
     const exchange = req.body;
     const newExchange = new Exchange(exchange);
-
     // Choose barbecha..
 
     try {
@@ -123,7 +121,6 @@ const getExchangeByIdBarbecha= async (req, res) => {
     }
 
 };
-
 
 export {
     getExchange,

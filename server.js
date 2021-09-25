@@ -36,9 +36,13 @@ app.use('/api/claim', claimRoutes)
 // @DESC Call Exchange Route
 app.use('/api/exchange', exchangeRoutes)
 
+app.use('/', (req,res) => {
+    res.send('hello to Ekolekti API ');
+})
 
 app.use(notFound)
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 8080
+
 app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${process.env.PORT}`))

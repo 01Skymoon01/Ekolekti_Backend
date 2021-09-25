@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon server",
-    "data:import": "node seeder",
-    "data:destroy": "node seeder -d"
+    "data:import": "node seeder.js",
+    "data:destroy": "node seeder.js -d"
   },
   "repository": {
     "type": "git",
