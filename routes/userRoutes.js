@@ -1,5 +1,5 @@
 import express from 'express'
-const router = express.Router()
+import {protect, admin, protectCitizen, protectBarbecha} from '../Middleware/authMiddleware.js'
 import {
     authUser,
     registerUser,
@@ -27,8 +27,8 @@ import {
     getSilverCitizen,
     getGoldCitizen
 } from '../controllers/userController.js'
-import {protect, admin, protectCitizen, protectBarbecha} from '../middleware/authMiddleware.js'
 
+const router = express.Router()
 
 // ***** Citizen *****
 router
