@@ -36,10 +36,6 @@ app.use('/api/claim', claimRoutes)
 // @DESC Call Exchange Route
 app.use('/api/exchange', exchangeRoutes)
 
-app.use('/', (req,res) => {
-    res.send('hello to Ekolekti API ');
-})
-
 app.use(notFound)
 app.use(errorHandler)
 
