@@ -404,6 +404,7 @@ const addCitizen = asyncHandler(async (req, res) => {
 // @route   GET /api/users/citizen/:id
 // @access  Public
 const getCitizenById = asyncHandler(async (req, res) => {
+    console.log("okokokokok");
     const { id } = req.params;
     const user = await Citizen.findById(id)
 
@@ -440,11 +441,14 @@ const getCitizenByIdTogetRankAndScore = asyncHandler(async (req, res) => {
 // @route   GET /api/users/citizen/iron
 // @access  Public
 const getIronCitizen = asyncHandler(async (req, res) => {
+   
     const user = await Citizen.find({rank: "iron"})
 
     if (user) {
         res.status(200).json(user)
-    } else {
+    } 
+    else
+     {
         res.status(404)
         throw new Error('no user')
     }

@@ -30,6 +30,20 @@ import {
 import {protect, admin, protectCitizen, protectBarbecha} from '../middleware/authMiddleware.js'
 
 
+// Get citizen by rank
+router
+    .route('/citizen/iron')
+    .get( protectCitizen,getIronCitizen)
+router
+    .route('/citizen/silver')
+    .get( protectCitizen,getSilverCitizen)
+router
+    .route('/citizen/gold')
+    .get( protectCitizen,getGoldCitizen)
+
+
+
+
 // ***** Citizen *****
 router
     .route('/citizen')
@@ -55,18 +69,6 @@ router
 router
     .route('/citizen/lvl/:id')
     .put(protectCitizen, updateCitizenByIdTogetRankAndScore)
-
-// Get citizen by rank
-router
-    .route('/citizen/iron')
-    .get( protectCitizen,getIronCitizen)
-router
-    .route('/citizen/silver')
-    .get( protectCitizen,getSilverCitizen)
-router
-    .route('/citizen/gold')
-    .get( protectCitizen,getGoldCitizen)
-
 
 // This function is protected by citizen because the citizen who is going to rate
 router
