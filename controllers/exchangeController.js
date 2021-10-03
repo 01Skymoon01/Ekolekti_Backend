@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose'
 import Claim from '../models/claimModel.js';
 import Exchange from "../models/exchangeModel.js";
-
+import fcm from  'fcm-node';
 
 // @desc    get Exchange
 // @route   GET api/exchange
@@ -41,8 +41,27 @@ const createExchange= async (req, res) => {
 
     try {
         await newExchange.save();
+        // Notification:
+        let fcm = new FCM(process.env.serverKey)
 
-        res.status(201).json(newExchange);
+        let message = {
+            to : exchange.token,
+            notification : {
+                title: "an exchange",
+                body: `exchange in ${exchange.position}`
+            }
+        }
+
+
+        fcm.send(message, function(err, response){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                res.status(201).json(newExchange);
+                console.log("Successfully sent with response: ", response);
+            }
+        });
+
     } catch (error) {
         res.status(409).json({message: error.message});
     }
