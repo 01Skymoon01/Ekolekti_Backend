@@ -13,7 +13,7 @@ const citizenSchema = extendSchema(User.schema, {
         ref: 'Exchange',
         required: false
     },
-});
+},);
 
 citizenSchema.methods.matchPassword = async function(enteredPasswaord) {
     return await bcrypt.compare(enteredPasswaord, this.password)
