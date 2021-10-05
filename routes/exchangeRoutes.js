@@ -23,4 +23,8 @@ router
     .route('/barbecha/:id')
     .get(protectBarbecha, getExchangeByIdBarbecha)
 
+router
+    .route('/notification')
+    .post(protectCitizen, notificationExchange)
+
 export default router

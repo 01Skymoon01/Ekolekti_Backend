@@ -37,30 +37,32 @@ const createExchange= async (req, res) => {
 
     const exchange = req.body;
     const newExchange = new Exchange(exchange);
+
     // Choose barbecha..
 
     try {
         await newExchange.save();
-        // Notification:
-        let fcm = new FCM(process.env.serverKey)
 
-        let message = {
-            to : exchange.token,
-            notification : {
-                title: "an exchange",
-                body: `exchange in ${exchange.position}`
-            }
-        }
+        // // Notification:
+        // let fcm = new FCM(process.env.serverKey)
+        //
+        // let message = {
+        //     to : exchange.token,
+        //     notification : {
+        //         title: "an exchange",
+        //         body: `exchange in ${exchange.position}`
+        //     }
+        // }
 
 
-        fcm.send(message, function(err, response){
-            if (err) {
-                console.log("Something has gone wrong!");
-            } else {
+        // fcm.send(message, function(err, response){
+        //     if (err) {
+        //         console.log("Something has gone wrong!");
+        //     } else {
                 res.status(201).json(newExchange);
-                console.log("Successfully sent with response: ", response);
-            }
-        });
+        //         console.log("Successfully sent with response: ", response);
+        //     }
+        // });
 
     } catch (error) {
         res.status(409).json({message: error.message});
@@ -141,12 +143,53 @@ const getExchangeByIdBarbecha= async (req, res) => {
 
 };
 
+
+
+const notificationExchange= async (req, res) => {
+
+    const token = req.body;
+
+
+    // Choose barbecha..
+
+    try {
+
+
+        // Notification:
+        let fcm = new FCM(process.env.serverKey)
+
+        let message = {
+            to : token,
+            notification : {
+                title: "an exchange",
+                body: `exchange in place accept?`
+            }
+        }
+
+
+        fcm.send(message, function(err, response){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                res.status(201).json(token);
+                console.log("Successfully sent with response: ", response);
+            }
+        });
+
+    } catch (error) {
+        res.status(409).json({message: error.message});
+    }
+
+};
+
+
 export {
     getExchange,
     createExchange,
     updateExchange,
     deleteExchange,
     getExchangeByIdCitizen,
-    getExchangeByIdBarbecha
+    getExchangeByIdBarbecha,
+    notificationExchange
 };
 
