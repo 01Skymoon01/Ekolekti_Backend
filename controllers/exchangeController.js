@@ -2,7 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose'
 import Claim from '../models/claimModel.js';
 import Exchange from "../models/exchangeModel.js";
-import fcm from  'fcm-node';
+import FCM from "fcm-node";
 
 // @desc    get Exchange
 // @route   GET api/exchange
@@ -147,7 +147,7 @@ const getExchangeByIdBarbecha= async (req, res) => {
 
 const notificationExchange= async (req, res) => {
 
-    const token = req.body;
+    const token = req.body.token;
 
 
     // Choose barbecha..

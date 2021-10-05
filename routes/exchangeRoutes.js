@@ -24,7 +24,7 @@ router
     .get(protectBarbecha, getExchangeByIdBarbecha)
 
 router
-    .route('/notification')
-    .post(protectCitizen, notificationExchange)
+    .route('/barbecha/notification')
+    .post(protectBarbecha, notificationExchange)
 
 export default router

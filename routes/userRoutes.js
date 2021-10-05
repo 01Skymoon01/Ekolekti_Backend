@@ -29,7 +29,10 @@ import {
 } from '../controllers/userController.js'
 
 const router = express.Router()
-
+// ***** Barbecha *****
+router
+    .route('/barbechas')
+    .post(addBarbecha)
 // Get citizen by rank
 router
     .route('/citizen/iron')
