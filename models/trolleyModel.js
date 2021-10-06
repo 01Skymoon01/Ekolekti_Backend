@@ -19,6 +19,16 @@ const trolleySchema = mongoose.Schema(
             type: String,
             required: false,
         },
+        latitude: {
+            type: String,
+            required: false,
+            default: ""
+        },
+        longitude: {
+            type: String,
+            required: false,
+            default: ""
+        },
         volume: {
             type: String,
             required: true,

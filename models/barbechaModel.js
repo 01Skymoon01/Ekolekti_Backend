@@ -24,6 +24,11 @@ const barbechaSchema = extendSchema(User.schema, {
         required: true,
         default: 0,
     },
+    fireBaseToken: {
+        type: String,
+        required: false,
+        default: 0,
+    },
 });
 barbechaSchema.methods.matchPassword = async function(enteredPasswaord) {
     return await bcrypt.compare(enteredPasswaord, this.password)

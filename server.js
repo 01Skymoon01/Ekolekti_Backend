@@ -6,9 +6,8 @@ import userRoutes from './routes/userRoutes.js'
 import trolleyRoutes from './routes/trolleyRoutes.js'
 import claimRoutes from './routes/claimRoutes.js'
 import exchangeRoutes from './routes/exchangeRoutes.js'
-
-import mosca from 'mosca';
 import mqtt from "mqtt";
+import {changePositionTrolley} from "./controllers/inTimeController.js";
 
 
 dotenv.config()
@@ -32,7 +31,6 @@ app.use('/api/trolley', trolleyRoutes)
 // @DESC Call Claim Route
 app.use('/api/claim', claimRoutes)
 
-
 // @DESC Call Exchange Route
 app.use('/api/exchange', exchangeRoutes)
 
@@ -48,11 +46,11 @@ var options = {
 let settings = {
     port:8883
 }
-let broker = new mosca.Server(settings)
-
-broker.on('ready',()=> {
-    console.log("Broker is ready!")
-})
+// let broker = new mosca.Server(settings)
+//
+// broker.on('ready',()=> {
+//     console.log("Broker is ready!")
+// })
 
 // SUB + PUB
 
@@ -69,7 +67,8 @@ let messageGPS = {
       latitude : "256256",
       longitude : "000000"
   },
-    batteries : 25
+    batteries : "75",
+    idTrolley : "612da9084fd28629e8f6e29c"
 }
 
 let messageWeight = {
@@ -87,22 +86,31 @@ let messageInfo = {
 
 // Event
 client.on('message', (topic, message)=>{
-    message = message.toString()
-    console.log(message)
+
+    // Know The Topic
+     console.log("For topic: ", topic)
+
+    if(topic === topicGPS.toString()){
+        const obj = JSON.parse(message);
+        console.log("..Changing position of Trolley: ", obj.messageGPS.idTrolley)
+
+        // changePositionTrolley(obj.messageGPS)
+        console.log( changePositionTrolley(obj))
+    }
 })
 
 client.on('connect', ()=>{
-    // client.subscribe(topicGPS)
+    client.subscribe(topicGPS)
     // client.subscribe(topicWeight)
-    client.subscribe(topicInfo)
+    //client.subscribe(topicInfo)
 
     setInterval(()=>{
-        client.publish(topicInfo, messageInfo.exchangeID)
-        console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
+        // client.publish(topicInfo, messageInfo.exchangeID)
+        // console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
 
-        // client.publish(topicGPS, messageGPS.batteries)
-        // console.log('messageGPS.batteries: ', messageGPS.batteries)
-        //
+        client.publish(topicGPS, JSON.stringify({messageGPS}))
+        //console.log('messageGPS.batteries: ', messageGPS.batteries)
+
         // client.publish(topicWeight, messageWeight.weight)
         // console.log('messageWeight.weight: ', messageWeight.weight)
     }, 5000) // chaque 5sec
@@ -111,10 +119,10 @@ client.on('connect', ()=>{
 
 
 //Broker
-broker.on('published', (packet)=>{
-    let message = packet.payload.toString()
-    console.log(message)
-})
+// broker.on('published', (packet)=>{
+//     let message = packet.payload.toString()
+//     console.log(message)
+// })
 
 
 app.use(notFound)

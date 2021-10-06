@@ -29,7 +29,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.6",
     "mongoose-extend-schema": "^1.0.0",
-    "mosca": "^2.8.3",
     "mqtt": "^4.2.8",
     "nodemon": "^2.0.12"
   }
