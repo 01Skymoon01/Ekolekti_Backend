@@ -539,6 +539,8 @@ const registerCitizen = asyncHandler(async (req, res) => {
             gender: user.gender,
             dateBirth: user.dateBirth,
             phone: user.phone,
+            score:user.score,
+            rank:user.rank,
             token: generateToken(user._id),
         })
     } else {
