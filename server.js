@@ -81,8 +81,8 @@ let messageWeight = {
 }
 
 let messageInfo = {
-    exchangeID : "id123456",
-    type : "hard"
+    ID : "613b95ed9b17e54d3cd96c8a",
+    t : "a" //a,b,c
 }
 
 

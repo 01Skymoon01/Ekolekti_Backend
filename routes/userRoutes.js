@@ -5,6 +5,7 @@ import {
     registerUser,
     getUserProfile,
     updateUserProfile,
+    updateCitizen,
     getUsers,
     deleteUser,
     getUserById,
@@ -72,6 +73,9 @@ router
 router
     .route('/citizen/lvl/:id')
     .put(protectCitizen, updateCitizenByIdTogetRankAndScore)
+router
+    .route('/citizen/:id')
+    .put(protectCitizen, updateCitizen)
 
 // This function is protected by citizen because the citizen who is going to rate
 router

@@ -504,6 +504,25 @@ const updateCitizenByIdTogetRankAndScore = asyncHandler(async (req, res) => {
     }
 })
 
+// @desc    Update  citizen by id
+// @route   PUT /api/users/citizen/:id
+// @access  Public
+const updateCitizen = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const user = await Citizen.findById(id)
+
+    if (user) {
+        user.name = req.body.name|| user.name 
+
+
+        const updatedUser = await user.save()
+
+        res.status(205).json(updatedUser)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
 
 
 // @desc    Register a new citizen
@@ -619,6 +638,7 @@ export {
     getCitizenById,
     registerCitizen,
     authCitizen,
+    updateCitizen,
     checkInProgressExchange,
     getCitizenByIdTogetRankAndScore,
     updateCitizenByIdTogetRankAndScore,
