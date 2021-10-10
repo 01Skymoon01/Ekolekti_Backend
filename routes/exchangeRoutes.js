@@ -5,7 +5,9 @@ import {
     createExchange,
     updateExchange,
     deleteExchange,
-    getExchangeByIdCitizen, getExchangeByIdBarbecha,notificationExchange
+    getExchangeByIdCitizen,
+    getExchangeByIdBarbecha,
+    notificationExchange
 } from '../controllers/exchangeController.js'
 import {protectBarbecha, protectCitizen} from "../Middleware/authMiddleware.js";
 
