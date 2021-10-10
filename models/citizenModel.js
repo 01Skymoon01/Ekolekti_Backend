@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 const citizenSchema = extendSchema(User.schema, {
     score: {type: Number, required: true, default: 0},
     // lvl0- Iron / lvl1- Silver / lvl2- Gold
-    rank: {type: String, required: true, default: "iron"},
+    rank: {type: String, required: true, default: "Iron"},
     // Just for testing
     refExchange: {
         type: mongoose.Schema.Types.ObjectId,

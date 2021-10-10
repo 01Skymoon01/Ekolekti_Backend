@@ -36,15 +36,15 @@ app.use('/api/exchange', exchangeRoutes)
 
 // MQTT PART :Broker => mosca + mqtt **
 var options = {
-    host: '07a68d3e221144d5b599622ca721ffdc.s1.eu.hivemq.cloud',
-    port: 8883,
-    protocol: 'mqtts',
+    host: '102.219.178.133', //'07a68d3e221144d5b599622ca721ffdc.s1.eu.hivemq.cloud',
+    port: 1883,
+    protocol: 'mqtt',
     username: 'ekolekti',
     password: '@1Ekolekti'
 }
 
 let settings = {
-    port:8883
+    port:1883
 }
 // let broker = new mosca.Server(settings)
 //
@@ -54,10 +54,13 @@ let settings = {
 
 // SUB + PUB
 
+
+
 let client = mqtt.connect(options)
 
 // Topics:
 let topicGPS = 'GPS'
+let topicTest="test/"
 let topicWeight = 'WEIGHT'
 let topicInfo= 'INFO'
 
@@ -88,27 +91,29 @@ let messageInfo = {
 client.on('message', (topic, message)=>{
 
     // Know The Topic
-     console.log("For topic: ", topic)
-
-    if(topic === topicGPS.toString()){
+     console.log("For topic: ", topic)  
+     console.log(JSON.parse(message))  ;  
+     if  (topic === topicGPS.toString()) {
+        
         const obj = JSON.parse(message);
+        
         console.log("..Changing position of Trolley: ", obj.messageGPS.idTrolley)
-
         // changePositionTrolley(obj.messageGPS)
-        console.log( changePositionTrolley(obj))
+        // console.log( changePositionTrolley(obj))
     }
 })
 
 client.on('connect', ()=>{
     client.subscribe(topicGPS)
-    // client.subscribe(topicWeight)
-    //client.subscribe(topicInfo)
+     client.subscribe(topicWeight)
+    client.subscribe(topicInfo)
+    client.subscribe(topicTest)
 
     setInterval(()=>{
         // client.publish(topicInfo, messageInfo.exchangeID)
         // console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
 
-        client.publish(topicGPS, JSON.stringify({messageGPS}))
+       // client.publish(topicGPS, JSON.stringify({messageGPS}))
         //console.log('messageGPS.batteries: ', messageGPS.batteries)
 
         // client.publish(topicWeight, messageWeight.weight)
