@@ -145,6 +145,9 @@ const getExchangeByIdBarbecha= async (req, res) => {
 
 
 
+
+
+
 const notificationExchange= async (req, res) => {
 
     const token = req.body.token;
@@ -157,18 +160,20 @@ const notificationExchange= async (req, res) => {
 
         // Notification:
         let fcm = new FCM(process.env.serverKey)
-
+        var ex= await Exchange.findOne() ;
+          console.log(ex);
         let message = {
             to : token,
             notification : {
                 title: "an exchange",
-                body: `exchange in place accept?`
+                body: ex
             }
         }
 
 
         fcm.send(message, function(err, response){
             if (err) {
+                console.log(err);
                 console.log("Something has gone wrong!");
             } else {
                 res.status(201).json(token);

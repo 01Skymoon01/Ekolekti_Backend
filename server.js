@@ -107,7 +107,7 @@ client.on('connect', ()=>{
     client.subscribe(topicGPS)
      client.subscribe(topicWeight)
     client.subscribe(topicInfo)
-    client.subscribe(topicTest)
+    //client.subscribe(topicTest)
 
     setInterval(()=>{
         // client.publish(topicInfo, messageInfo.exchangeID)
@@ -122,7 +122,7 @@ client.on('connect', ()=>{
 
 })
 
-
+ 
 //Broker
 // broker.on('published', (packet)=>{
 //     let message = packet.payload.toString()
