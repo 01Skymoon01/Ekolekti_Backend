@@ -6,6 +6,7 @@ import {
     updateExchange,
     deleteExchange,
     getExchangeByIdCitizen,
+    getBarbechaMap,
     getExchangeByIdBarbecha,
     notificationExchange
 } from '../controllers/exchangeController.js'
@@ -18,6 +19,7 @@ router.route('/').post(createExchange)
 router.route('/').get(getExchange)
 router.route('/:id').put(updateExchange)
 router.route('/:id').delete(deleteExchange)
+router.route('/map').post(getBarbechaMap)
 router
     .route('/citizen/:id')
     .get(protectCitizen, getExchangeByIdCitizen)

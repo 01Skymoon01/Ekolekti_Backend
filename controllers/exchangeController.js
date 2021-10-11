@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose'
 import Claim from '../models/claimModel.js';
 import Exchange from "../models/exchangeModel.js";
+import Trolley from "../models/trolleyModel.js";
+import Barbecha from "../models/barbechaModel.js";
 import FCM from "fcm-node";
 
 // @desc    get Exchange
@@ -69,6 +71,40 @@ const createExchange= async (req, res) => {
     }
 
 };
+
+
+// @desc    get map
+// @route   Post api/exchange/map
+// @access  Public 612c64819c05110980d8ab84
+const getBarbechaMap= async (req, res) => {
+
+    try {
+        const { id } = req.body;
+
+     
+        const BarbechaMessages = await Barbecha.findById(id) ;
+        const TrolleyMessages = await Trolley.findById(BarbechaMessages.refTrolley) ;
+        const ExchangeMessages = await Exchange.find({"refBarbecha": id},{ position:1}) ;
+
+        let copie2 = [];
+        for (let i = 0; i < ExchangeMessages.length; i++) {
+
+                copie2.push({"latitude": ExchangeMessages[i].position.substring(0, ExchangeMessages[i].position.indexOf(",")),
+                    "longitude": ExchangeMessages[i].position.substring(ExchangeMessages[i].position.indexOf(",")+1, ExchangeMessages[i].position.length)})
+
+        }
+
+
+        res.status(200).json({DepartPosition: {"latitude": TrolleyMessages.latitude, "longitude":TrolleyMessages.longitude}, TargetPosition : copie2  });
+
+
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }
+
+};
+
+
 
 
 // @desc    Update Exchange
@@ -195,6 +231,7 @@ export {
     deleteExchange,
     getExchangeByIdCitizen,
     getExchangeByIdBarbecha,
-    notificationExchange
+    notificationExchange,
+    getBarbechaMap
 };
 
