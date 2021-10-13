@@ -59,7 +59,8 @@ let client = mqtt.connect(options)
 
 // Topics:
 let topicGPS = 'GPS'
-let topicTest="test/"
+
+let topicTest="ekolekti/"
 
 let topicWeight = 'WEIGHT'
 let topicInfo= 'INFO'
@@ -89,15 +90,18 @@ let messageInfo = {
 
 // Event
 client.on('message', (topic, message)=>{
-
+   try{
     // Know The Topic
+    console.log("/// messsage for topic :  "+ topic) ;
    var ch = message.toString() ;
-   console.log(ch);
    const search = '\''  
    const replacer = new RegExp(search, 'g')
    var n=ch.replace(replacer, '"');
-   console.log(n);
    console.log(JSON.parse(n)) ;
+   }catch(e){
+  console.log(e);
+   }
+    
     
      if  (topic === topicGPS.toString()) {
       /*   
@@ -115,17 +119,16 @@ client.on('connect', ()=>{
     client.subscribe(topicWeight)
     client.subscribe(topicInfo)
     client.subscribe(topicTest)
-/* 
+ 
     setInterval(()=>{
          client.publish(topicTest, JSON.stringify(messageInfo) ) 
          console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
 
-         //  client.publish(topicGPS, JSON.stringify({messageInfo}))
+        //  client.publish(topicGPS, JSON.stringify({messageInfo}))
         //console.log('messageGPS.batteries: ', messageGPS.batteries)
-
         // client.publish(topicWeight, messageWeight.weight)
         // console.log('messageWeight.weight: ', messageWeight.weight)
-    }, 50000) // chaque 5sec */
+    }, 10000) // chaque 5sec 
 
 })
 
