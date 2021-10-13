@@ -573,10 +573,7 @@ const registerCitizen = asyncHandler(async (req, res) => {
 // @access  Public
 const authCitizen  = asyncHandler(async (req, res) => {
     const { email, password } = req.body
-           console.log("helloooooooooooooooooooooooo");
-           console.log(req.query);
-           console.log(req.headers);
-           console.log("helloooooooooooooooooooooooo");
+         
     const user = await Citizen.findOne({ email })
 
     if (user && (await user.matchPassword(password))) {

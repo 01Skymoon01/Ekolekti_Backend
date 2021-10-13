@@ -30,6 +30,7 @@
     "mongoose": "^5.13.6",
     "mongoose-extend-schema": "^1.0.0",
     "mqtt": "^4.2.8",
-    "nodemon": "^2.0.12"
+    "nodemon": "^2.0.12",
+    "parse-json": "^5.2.0"
   }
 }

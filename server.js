@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { json } from 'express'
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import {errorHandler, notFound} from "./Middleware/errorMiddleware.js";
@@ -7,6 +7,7 @@ import trolleyRoutes from './routes/trolleyRoutes.js'
 import claimRoutes from './routes/claimRoutes.js'
 import exchangeRoutes from './routes/exchangeRoutes.js'
 import mqtt from "mqtt";
+
 import {changePositionTrolley} from "./controllers/inTimeController.js";
 
 
@@ -54,24 +55,23 @@ let settings = {
 
 // SUB + PUB
 
-
-
 let client = mqtt.connect(options)
 
 // Topics:
 let topicGPS = 'GPS'
 let topicTest="test/"
+
 let topicWeight = 'WEIGHT'
 let topicInfo= 'INFO'
 
 // Messages for testing:
 let messageGPS = {
-  position : {
+  "position" : {
       latitude : "256256",
       longitude : "000000"
   },
-    batteries : "75",
-    idTrolley : "612da9084fd28629e8f6e29c"
+    "batteries" : "75",
+    "idTrolley" : "612da9084fd28629e8f6e29c"
 }
 
 let messageWeight = {
@@ -81,8 +81,8 @@ let messageWeight = {
 }
 
 let messageInfo = {
-    ID : "613b95ed9b17e54d3cd96c8a",
-    t : "a" //a,b,c
+    "ID" : "613b95ed9b17e54d3cd96c8a",
+    "t" : "a" 
 }
 
 
@@ -91,34 +91,41 @@ let messageInfo = {
 client.on('message', (topic, message)=>{
 
     // Know The Topic
-     console.log("For topic: ", topic)  
-     console.log(JSON.parse(message))  ;  
+   var ch = message.toString() ;
+   console.log(ch);
+   const search = '\''  
+   const replacer = new RegExp(search, 'g')
+   var n=ch.replace(replacer, '"');
+   console.log(n);
+   console.log(JSON.parse(n)) ;
+    
      if  (topic === topicGPS.toString()) {
-        
-        const obj = JSON.parse(message);
+      /*   
+        const obj = JSON.parse(message.toString());
+        console.log(obj);
         
         console.log("..Changing position of Trolley: ", obj.messageGPS.idTrolley)
-        // changePositionTrolley(obj.messageGPS)
-        // console.log( changePositionTrolley(obj))
+        //  changePositionTrolley(obj.messageGPS)
+        // console.log( changePositionTrolley(obj))  */
     }
 })
 
 client.on('connect', ()=>{
     client.subscribe(topicGPS)
-     client.subscribe(topicWeight)
+    client.subscribe(topicWeight)
     client.subscribe(topicInfo)
-    //client.subscribe(topicTest)
+    client.subscribe(topicTest)
 
     setInterval(()=>{
-        // client.publish(topicInfo, messageInfo.exchangeID)
-        // console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
+         client.publish(topicTest, JSON.stringify(messageInfo) ) 
+         console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
 
-       // client.publish(topicGPS, JSON.stringify({messageGPS}))
+         //  client.publish(topicGPS, JSON.stringify({messageInfo}))
         //console.log('messageGPS.batteries: ', messageGPS.batteries)
 
         // client.publish(topicWeight, messageWeight.weight)
         // console.log('messageWeight.weight: ', messageWeight.weight)
-    }, 5000) // chaque 5sec
+    }, 50000) // chaque 5sec
 
 })
 
