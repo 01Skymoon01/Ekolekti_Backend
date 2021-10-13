@@ -115,7 +115,7 @@ client.on('connect', ()=>{
     client.subscribe(topicWeight)
     client.subscribe(topicInfo)
     client.subscribe(topicTest)
-
+/* 
     setInterval(()=>{
          client.publish(topicTest, JSON.stringify(messageInfo) ) 
          console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
@@ -125,7 +125,7 @@ client.on('connect', ()=>{
 
         // client.publish(topicWeight, messageWeight.weight)
         // console.log('messageWeight.weight: ', messageWeight.weight)
-    }, 50000) // chaque 5sec
+    }, 50000) // chaque 5sec */
 
 })
 
