@@ -102,7 +102,7 @@ client.on('message', (topic, message)=>{
    var n=ch.replace(replacer, '"');
    console.log(JSON.parse(n)) ;
    }catch(e){
-  console.log(e);
+     console.log(e);
    }
     
     
@@ -135,7 +135,7 @@ client.on('connect', ()=>{
 
 })
 
- 
+ export {client}
 //Broker
 // broker.on('published', (packet)=>{
 //     let message = packet.payload.toString()

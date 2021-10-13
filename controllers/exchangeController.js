@@ -6,6 +6,7 @@ import Trolley from "../models/trolleyModel.js";
 import Barbecha from "../models/barbechaModel.js";
 import FCM from "fcm-node";
 import haversine from 'haversine-distance'
+import {client} from "../server";
 
 
 
@@ -285,6 +286,52 @@ const updateToken= async (req, res) => {
 
 }
 
+const getWeight = async (req,res)=>{
+    const type = req.body.type;
+    const id = req.body.id;
+
+
+    try{
+        client.publish('INFO', JSON.stringify({
+            "ID" : id,
+            "t" : type
+        }) )
+        client.on('message', async (topic = "INFO", message) => {
+            try {
+                // Know The Topic
+                console.log("/// messsage for topic :  " + topic);
+                var ch = message.toString();
+                const search = '\''
+                const replacer = new RegExp(search, 'g')
+                var n = ch.replace(replacer, '"');
+                console.log(JSON.parse(n));
+
+                const Exchangemessage = await Exchange.findById(id);
+
+
+                let quantities= []
+                for(let i=0; i < Exchangemessage.quantities.length; i++ ){
+                    if(Exchangemessage.quantities[i].type === type) {
+                        Exchangemessage.quantities[i].quantity = JSON.parse(n).weight
+                        quantities.push(Exchangemessage.quantities[i])
+
+                    }else quantities.push(Exchangemessage.quantities[i])
+
+                }
+
+
+            } catch (e) {
+                console.log(e);
+            }
+        })
+
+    }catch(e){
+        res.status(409).json({message: error.message});
+
+    }
+
+}
+
 
 export {
     getExchange,
@@ -296,6 +343,7 @@ export {
     notificationExchange,
     chooseBarbecha,
     updateToken,
+    getWeight,
     getBarbechaMap
 };
 
