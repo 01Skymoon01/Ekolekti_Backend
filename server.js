@@ -1,4 +1,5 @@
-import express, { json } from 'express'
+import express from 'express'
+import pkg from 'express';
 import dotenv from 'dotenv'
 import connectDB from './config/db.js'
 import {errorHandler, notFound} from "./Middleware/errorMiddleware.js";
@@ -9,6 +10,8 @@ import exchangeRoutes from './routes/exchangeRoutes.js'
 import mqtt from "mqtt";
 
 import {changePositionTrolley} from "./controllers/inTimeController.js";
+
+const { json } = pkg;
 
 
 dotenv.config()

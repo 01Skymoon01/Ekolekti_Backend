@@ -5,6 +5,51 @@ import Exchange from "../models/exchangeModel.js";
 import Trolley from "../models/trolleyModel.js";
 import Barbecha from "../models/barbechaModel.js";
 import FCM from "fcm-node";
+import haversine from 'haversine-distance'
+
+
+
+
+
+const chooseBarbecha=  async (ExchangeMessages) => {
+
+
+    // Find Client Position
+
+    const ClientPosition = {"lat": ExchangeMessages.position.substring(0, ExchangeMessages.position.indexOf(",")),
+        "lon": ExchangeMessages.position.substring(ExchangeMessages.position.indexOf(",")+1, ExchangeMessages.position.length)}
+
+    // Choose barbecha..
+    const BarbechaMessages = await Barbecha.find();
+    let TrolleysPosition = [];
+    for (let i = 0; i < BarbechaMessages.length; i++) {
+        if(BarbechaMessages[i].refTrolley) {
+            const TrolleyMessages = await Trolley.findById(BarbechaMessages[i].refTrolley);
+
+            if(TrolleyMessages.latitude) {
+                TrolleysPosition.push({
+                    "_id": BarbechaMessages[i]._id,
+                    "lat": TrolleyMessages.latitude,
+                    "lon": TrolleyMessages.longitude
+                })
+            }
+        }
+    }
+
+    let bestBarbeche = TrolleysPosition[0]._id;
+    let minDistance= haversine(TrolleysPosition[0],ClientPosition)
+    for (let i = 0; i < TrolleysPosition.length; i++) {
+
+        if(minDistance > haversine(TrolleysPosition[i], ClientPosition)){
+            minDistance = haversine(TrolleysPosition[i], ClientPosition);
+            bestBarbeche = TrolleysPosition[i]._id
+        }
+
+    }
+
+    return bestBarbeche;
+
+}
 
 // @desc    get Exchange
 // @route   GET api/exchange
@@ -40,31 +85,33 @@ const createExchange= async (req, res) => {
     const exchange = req.body;
     const newExchange = new Exchange(exchange);
 
-    // Choose barbecha..
+
 
     try {
         await newExchange.save();
-
-        // // Notification:
-        // let fcm = new FCM(process.env.serverKey)
-        //
-        // let message = {
-        //     to : exchange.token,
-        //     notification : {
-        //         title: "an exchange",
-        //         body: `exchange in ${exchange.position}`
-        //     }
-        // }
+         let bestBarbeche= await chooseBarbecha(newExchange);
 
 
-        // fcm.send(message, function(err, response){
-        //     if (err) {
-        //         console.log("Something has gone wrong!");
-        //     } else {
+        // Notification:
+        let fcm = new FCM(process.env.serverKey)
+
+        let message = {
+            to : exchange.token,
+            notification : {
+                title: "an exchange",
+                body: `exchange in ${bestBarbeche._id}`
+            }
+        }
+
+
+        fcm.send(message, function(err, response){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
                 res.status(201).json(newExchange);
-        //         console.log("Successfully sent with response: ", response);
-        //     }
-        // });
+                console.log("Successfully sent with response: ", response);
+            }
+        });
 
     } catch (error) {
         res.status(409).json({message: error.message});
@@ -182,14 +229,13 @@ const getExchangeByIdBarbecha= async (req, res) => {
 
 
 
-
-
 const notificationExchange= async (req, res) => {
 
     const token = req.body.token;
+    const idClient = req.body.idClient;
 
 
-    // Choose barbecha..
+    // Choose barbecha.
 
     try {
 
@@ -223,6 +269,22 @@ const notificationExchange= async (req, res) => {
 
 };
 
+// @desc
+// @route   PUT api/exchange/updateToken
+// @access  Public
+const updateToken= async (req, res) => {
+    const token = req.body.token;
+    const id = req.body.id;
+
+    try{
+        const Barbechemessage = await Barbecha.findByIdAndUpdate(id,{fireBaseToken: token}) ;
+        res.status(205).json(Barbechemessage);
+    }catch (e){
+        res.status(409).json({message: error.message});
+    }
+
+}
+
 
 export {
     getExchange,
@@ -232,6 +294,8 @@ export {
     getExchangeByIdCitizen,
     getExchangeByIdBarbecha,
     notificationExchange,
+    chooseBarbecha,
+    updateToken,
     getBarbechaMap
 };
 

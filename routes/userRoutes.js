@@ -30,6 +30,7 @@ import {
 } from '../controllers/userController.js'
 
 const router = express.Router()
+
 // ***** Barbecha *****
 router
     .route('/barbechas')
