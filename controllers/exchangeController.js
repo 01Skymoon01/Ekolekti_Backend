@@ -6,7 +6,7 @@ import Trolley from "../models/trolleyModel.js";
 import Barbecha from "../models/barbechaModel.js";
 import FCM from "fcm-node";
 import haversine from 'haversine-distance'
-import {client} from "../server";
+import {client} from "../server.js";
 
 
 
@@ -306,29 +306,54 @@ const getWeight = async (req,res)=>{
                 var n = ch.replace(replacer, '"');
                 console.log(JSON.parse(n));
 
-                const Exchangemessage = await Exchange.findById(id);
 
 
-                let quantities= []
-                for(let i=0; i < Exchangemessage.quantities.length; i++ ){
-                    if(Exchangemessage.quantities[i].type === type) {
-                        Exchangemessage.quantities[i].quantity = JSON.parse(n).weight
-                        quantities.push(Exchangemessage.quantities[i])
-
-                    }else quantities.push(Exchangemessage.quantities[i])
-
-                }
-
-
+                res.status(204).json(JSON.parse(n).weight);
             } catch (e) {
                 console.log(e);
             }
         })
 
+        setTimeout(function (e) {
+            res.status(409).json({"message": e + "time is out"});
+        },10000)
+
+
     }catch(e){
         res.status(409).json({message: error.message});
 
     }
+
+}
+
+const validedExchange = async (req,res) => {
+    const type = req.body.type;
+    const id = req.body.id;
+    const weight = req.body.weight;
+
+try{
+    const Exchangemessage = await Exchange.findById(id);
+
+
+    let quantities= []
+    for(let i=0; i < Exchangemessage.quantities.length; i++ ){
+        if(Exchangemessage.quantities[i].type === type) {
+            Exchangemessage.quantities[i].quantity = weight
+            quantities.push(Exchangemessage.quantities[i])
+
+        }else quantities.push(Exchangemessage.quantities[i])
+
+    }
+
+    const NewExchangemessage = await Exchange.findByIdAndUpdate(id,{quantities: quantities}) ;
+
+
+    res.status(204).json(NewExchangemessage);
+}catch (e) {
+    res.status(409).json({"message": e});
+}
+
+
 
 }
 
@@ -344,6 +369,7 @@ export {
     chooseBarbecha,
     updateToken,
     getWeight,
-    getBarbechaMap
+    getBarbechaMap,
+    validedExchange
 };
 
