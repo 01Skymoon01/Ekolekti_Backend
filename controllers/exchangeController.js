@@ -376,27 +376,10 @@ const acceptNotif  = async (req,res) => {
 
 }
 
-// @desc
-// @route   PUT api/exchange/acceptNotif
-// @access  Public
-const acceptNotif  = async (req,res) => {
-    const id = req.body.id;
-    const refBarbecha = req.body.refBarbecha;
-    try{
-        const NewExchangemessage = await Exchange.findByIdAndUpdate(id,{refBarbecha: refBarbecha}) ;
-        res.status(204).json(NewExchangemessage);
-
-    }catch (e) {
-        res.status(409).json({"message": e});
-
-    }
-
-
-}
 
 
 // @desc
-// @route   PUT api/exchange/confirm
+// @route   PUT api/exchange/confirmExchange
 // @access  Public
 const confirmExchange  = async (req,res) => {
     const id = req.body.id;
