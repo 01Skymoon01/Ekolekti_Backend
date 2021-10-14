@@ -8,7 +8,7 @@ import {
     getExchangeByIdCitizen,
     getBarbechaMap,
     getExchangeByIdBarbecha,
-    notificationExchange, chooseBarbecha, updateToken, validedExchange
+    notificationExchange, chooseBarbecha, updateToken, validedExchange, acceptNotif, confirmExchange
 } from '../controllers/exchangeController.js'
 import {protectBarbecha, protectCitizen} from "../Middleware/authMiddleware.js";
 

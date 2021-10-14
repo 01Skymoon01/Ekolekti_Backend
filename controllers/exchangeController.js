@@ -7,7 +7,7 @@ import Barbecha from "../models/barbechaModel.js";
 import FCM from "fcm-node";
 import haversine from 'haversine-distance'
 import {client} from "../server.js";
-import Citizen from "../models/citizenModel";
+import Citizen from "../models/citizenModel.js";
 
 
 
