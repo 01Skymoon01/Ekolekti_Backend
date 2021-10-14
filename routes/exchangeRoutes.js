@@ -8,13 +8,19 @@ import {
     getExchangeByIdCitizen,
     getBarbechaMap,
     getExchangeByIdBarbecha,
-    notificationExchange
+    notificationExchange, chooseBarbecha, updateToken, validedExchange, acceptNotif, confirmExchange
 } from '../controllers/exchangeController.js'
 import {protectBarbecha, protectCitizen} from "../Middleware/authMiddleware.js";
 
 
 
 // Trolley
+router.route('/bestBarbeche').post(chooseBarbecha)
+router.route('/updateToken').put(updateToken)
+router.route('/validedExchange').put(validedExchange)
+router.route('/acceptNotif').put(acceptNotif)
+router.route('/confirmExchange').put(confirmExchange)
+
 router.route('/').post(createExchange)
 router.route('/').get(getExchange)
 router.route('/:id').put(updateExchange)
