@@ -306,6 +306,7 @@ const getWeight = async (req,res)=>{
                 const replacer = new RegExp(search, 'g')
                 var n = ch.replace(replacer, '"');
                 console.log(JSON.parse(n));
+
                 res.status(204).json(JSON.parse(n).weight);
             } catch (e) {
                 console.log(e);
@@ -318,7 +319,8 @@ const getWeight = async (req,res)=>{
  */
 
     }catch(e){
-        res.status(409).json({message: error.message});
+         console.log(e);
+       // res.status(409).json({message: error.message});
 
     }
 
