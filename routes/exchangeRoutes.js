@@ -21,7 +21,7 @@ router.route('/updateToken').put(updateToken)
 router.route('/validedExchange').put(validedExchange)
 router.route('/acceptNotif').put(acceptNotif)
 router.route('/confirmExchange').put(confirmExchange)
-router.route('/getweight').get(getWeight)
+router.route('/getweight').post(getWeight)
 router.route('/validweight').get(validedExchange)
 
 
