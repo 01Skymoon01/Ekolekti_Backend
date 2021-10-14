@@ -7,6 +7,7 @@ import Barbecha from "../models/barbechaModel.js";
 import FCM from "fcm-node";
 import haversine from 'haversine-distance'
 import {client} from "../server.js";
+import Citizen from "../models/citizenModel";
 
 
 
@@ -378,7 +379,7 @@ const acceptNotif  = async (req,res) => {
 // @desc
 // @route   PUT api/exchange/acceptNotif
 // @access  Public
-const confirmExchange  = async (req,res) => {
+const acceptNotif  = async (req,res) => {
     const id = req.body.id;
     const refBarbecha = req.body.refBarbecha;
     try{
@@ -394,6 +395,43 @@ const confirmExchange  = async (req,res) => {
 }
 
 
+// @desc
+// @route   PUT api/exchange/confirm
+// @access  Public
+const confirmExchange  = async (req,res) => {
+    const id = req.body.id;
+
+    try{
+        const NewExchangemessage = await Exchange.findByIdAndUpdate(id,{status: true}) ;
+
+        let score= 0;
+        const Citizenmessage = await Citizen.findById(NewExchangemessage.refCitizen) ;
+
+        score+= Citizenmessage.score ;
+        for(let i=0; i < NewExchangemessage.quantities.length; i++){
+            if(NewExchangemessage.quantities[i].type == "A")
+                score+= NewExchangemessage.quantities[i].quantities * 30;
+            else  if(NewExchangemessage.quantities[i].type == "B")
+                 score+= NewExchangemessage.quantities[i].quantities * 50;
+            else  if(NewExchangemessage.quantities[i].type == "C")
+                score+= NewExchangemessage.quantities[i].quantities * 70;
+
+                }
+
+
+        const NewCitizenmessage = await Citizen.findByIdAndUpdate(NewExchangemessage.refCitizen,{score: score}) ;
+        res.status(204).json(NewCitizenmessage);
+
+    }catch (e) {
+        res.status(409).json({"message": e});
+
+    }
+
+
+}
+
+
+
 export {
     getExchange,
     createExchange,
@@ -406,6 +444,8 @@ export {
     updateToken,
     getWeight,
     getBarbechaMap,
+    acceptNotif,
+    confirmExchange,
     validedExchange
 };
 
