@@ -121,9 +121,8 @@ client.on('connect', ()=>{
     client.subscribe(topicTest)
  
     setInterval(()=>{
-         client.publish(topicTest, JSON.stringify(messageInfo) ) 
+         client.publish(topicInfo, JSON.stringify(messageInfo) ) 
          console.log('messageInfo.exchangeID: ', messageInfo.exchangeID)
-
         //  client.publish(topicGPS, JSON.stringify({messageInfo}))
         //console.log('messageGPS.batteries: ', messageGPS.batteries)
         // client.publish(topicWeight, messageWeight.weight)
