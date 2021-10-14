@@ -306,19 +306,16 @@ const getWeight = async (req,res)=>{
                 const replacer = new RegExp(search, 'g')
                 var n = ch.replace(replacer, '"');
                 console.log(JSON.parse(n));
-
-
-
                 res.status(204).json(JSON.parse(n).weight);
             } catch (e) {
                 console.log(e);
             }
         })
 
-        setTimeout(function (e) {
+       /*  setTimeout(function (e) {
             res.status(409).json({"message": e + "time is out"});
         },10000)
-
+ */
 
     }catch(e){
         res.status(409).json({message: error.message});
