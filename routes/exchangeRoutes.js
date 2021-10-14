@@ -6,7 +6,7 @@ import {
     updateExchange,
     deleteExchange,
     getExchangeByIdCitizen,
-    getWeight,validedExchange,
+    getWeight,
     getBarbechaMap,
     getExchangeByIdBarbecha,
     notificationExchange, chooseBarbecha, updateToken, validedExchange, acceptNotif, confirmExchange
@@ -22,7 +22,7 @@ router.route('/validedExchange').put(validedExchange)
 router.route('/acceptNotif').put(acceptNotif)
 router.route('/confirmExchange').put(confirmExchange)
 router.route('/getweight').post(getWeight)
-router.route('/validweight').get(validedExchange)
+
 
 
 router.route('/').post(createExchange)
